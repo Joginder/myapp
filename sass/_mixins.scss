@@ -1,0 +1,125 @@
+// Add mixins here.
+// font.
+$used-fonts: ();
+@mixin import-google-fonts() {
+    $fonts: "";
+    @each $family,
+    $variations in $used-fonts {
+        // Create url-friendly name (replace space with +):
+        $family-string: str-replace($family, ' ', '+');
+        // Combine variations into a comma separated string:
+        $variations-string: "";
+        @each $variation in $variations {
+            $variations-string: "#{$variations-string},#{$variation}";
+        }
+        // Cut of the first character (unwanted comma):
+        $variations-string: str-slice($variations-string, 2);
+        // Combine family and variatons in $fonts,
+        // separated by a pipe (for the Google URL):
+        $fonts: "#{$fonts}|#{$family-string}:#{$variations-string}";
+    }
+    // Cut of the first character (unwanted pipe):
+    $fonts: str-slice($fonts, 2);
+    // Import only the used Google fonts!
+    @import url(http://fonts.googleapis.com/css?family=#{$fonts});
+}
+
+// Source for this str-replace() function:
+@function str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+    @return $string;
+}
+
+@mixin track-fonts($family, $weight, $style) {
+    // First check if we already knew this one:
+    @if map-has-key($used-fonts, $family)==false {
+        // Font-family isn't in the map yet, so add it.
+        // The key for the nested map is the font name:
+        $used-fonts: map-merge($used-fonts, ($family: ())) !global;
+    }
+    // Now check if this weight and style are known,
+    // using Google's "400italic" notation.
+    // If style is "normal", only use the weight:
+    $weight-style: if($style==normal, $weight, #{$weight}#{$style});
+    $font-map: map-get($used-fonts, $family);
+    @if index($font-map, $weight-style)==null {
+        // Weight and style aren't in the map yet, so add it:
+        $variations: append($font-map, $weight-style);
+        $used-fonts: map-merge($used-fonts, ($family: $variations)) !global;
+    }
+}
+
+@mixin font($family, $weight: 400, $style: normal) {
+    // Call our custom function to do the heavy lifting:
+    @include track-fonts($family, $weight, $style);
+    font-family: $family;
+    font-weight: $weight;
+    font-style: $style;
+}
+
+.normal {
+    // Regular font-weight (400), normal font-style:
+    @include font("Comfortaa");
+}
+
+.bold {
+    // Bold (weight of 700), normal font-style:
+    @include font("Comfortaa", 700);
+}
+
+.other-font {
+    // Different font, bold (weight of 400)
+    @include font("Satisfy", 400);
+}
+
+@include import-google-fonts();
+// display flex.
+@mixin menu($flex: flex, $flex-flow: row) {
+    // Creating custom function to use flex.
+    display: $flex;
+    flex-flow: $flex-flow;
+}
+
+// Animation page load mixin.
+@mixin animation($animate...) {
+    $max: length($animate);
+    $animations: '';
+    @for $i from 1 through $max {
+        $animations: #{$animations + nth($animate, $i)};
+        @if $i < $max {
+            $animations: #{$animations + ", "};
+        }
+    }
+    -webkit-animation: $animations;
+    -moz-animation: $animations;
+    -o-animation: $animations;
+    animation: $animations;
+}
+
+@mixin keyframes($animationName) {
+    @-webkit-keyframes #{$animationName} {
+        @content;
+    }
+    @-moz-keyframes #{$animationName} {
+        @content;
+    }
+    @-o-keyframes #{$animationName} {
+        @content;
+    }
+    @keyframes #{$animationName} {
+        @content;
+    }
+}
+
+// Extends to use repeatedly.
+%none {
+    display: none;
+}
+
+%margin-padding-none {
+    margin: 0;
+    padding: 0;
+}

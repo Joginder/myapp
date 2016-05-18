@@ -1,0 +1,52 @@
+// Added Sass file to perform style changes.
+
+// Importing files.
+@import 'var';
+@import 'mixins';
+
+
+// Universal code.
+* {
+    margin: 0;
+}
+
+body {
+    padding: 10px 15px;
+    background: powderblue;
+}
+
+ul, ol {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+// Header
+.header {
+    margin-bottom: 20px;
+    .logo {
+        font-size: 40px;
+        color: mediumvioletred;
+    }
+}
+
+// Menu styling.
+.menu {
+    margin-top: 10px;
+    ul {
+        @extend %margin-padding-none;
+        @include menu(flex, row wrap);
+        li {
+            background: lawngreen;
+            padding: 5px 10px;
+            &:not(:last-child) {
+                margin: 0 10px 0 0;
+            }
+            a {
+                color: orangered;
+            }
+        }
+    }
+}

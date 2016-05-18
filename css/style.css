@@ -1,0 +1,81 @@
+@import url(http://fonts.googleapis.com/css?family=Comfortaa:400,700|Satisfy:400);
+/* line 63, ../sass/_mixins.scss */
+.normal {
+  font-family: "Comfortaa";
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* line 68, ../sass/_mixins.scss */
+.bold {
+  font-family: "Comfortaa";
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* line 73, ../sass/_mixins.scss */
+.other-font {
+  font-family: "Satisfy";
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* line 122, ../sass/_mixins.scss */
+.menu ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 9, ../sass/style.scss */
+* {
+  margin: 0;
+}
+
+/* line 13, ../sass/style.scss */
+body {
+  padding: 10px 15px;
+  background: powderblue;
+}
+
+/* line 18, ../sass/style.scss */
+ul, ol {
+  list-style-type: none;
+}
+
+/* line 22, ../sass/style.scss */
+a {
+  text-decoration: none;
+}
+
+/* line 27, ../sass/style.scss */
+.header {
+  margin-bottom: 20px;
+}
+/* line 29, ../sass/style.scss */
+.header .logo {
+  font-size: 40px;
+  color: mediumvioletred;
+}
+
+/* line 36, ../sass/style.scss */
+.menu {
+  margin-top: 10px;
+}
+/* line 38, ../sass/style.scss */
+.menu ul {
+  display: flex;
+  flex-flow: row wrap;
+}
+/* line 41, ../sass/style.scss */
+.menu ul li {
+  background: lawngreen;
+  padding: 5px 10px;
+}
+/* line 44, ../sass/style.scss */
+.menu ul li:not(:last-child) {
+  margin: 0 10px 0 0;
+}
+/* line 47, ../sass/style.scss */
+.menu ul li a {
+  color: orangered;
+}
